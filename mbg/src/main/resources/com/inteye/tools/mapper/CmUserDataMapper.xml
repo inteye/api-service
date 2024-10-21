@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inteye.tools.mapper.CmUserDataMapper">
+  <resultMap id="BaseResultMap" type="com.inteye.tools.model.CmUserData">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="type" jdbcType="SMALLINT" property="type" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="gender" jdbcType="SMALLINT" property="gender" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="country" jdbcType="VARCHAR" property="country" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="device_type" jdbcType="SMALLINT" property="deviceType" />
+    <result column="device_tokens" jdbcType="VARCHAR" property="deviceTokens" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="idcard_type" jdbcType="SMALLINT" property="idcardType" />
+    <result column="idcard_number" jdbcType="VARCHAR" property="idcardNumber" />
+    <result column="is_birthday_public" jdbcType="BIT" property="isBirthdayPublic" />
+    <result column="is_authenticated" jdbcType="BIT" property="isAuthenticated" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, type, nickname, gender, avatar, birthday, country, city, device_type, 
+    device_tokens, ip, idcard_type, idcard_number, is_birthday_public, is_authenticated, 
+    updated_at
+  </sql>
+  <select id="selectByExample" parameterType="com.inteye.tools.model.CmUserDataExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cm_user_data
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cm_user_data
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cm_user_data
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.inteye.tools.model.CmUserDataExample">
+    delete from cm_user_data
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.inteye.tools.model.CmUserData">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cm_user_data (user_id, type, nickname, 
+      gender, avatar, birthday, 
+      country, city, device_type, 
+      device_tokens, ip, idcard_type, 
+      idcard_number, is_birthday_public, is_authenticated, 
+      updated_at)
+    values (#{userId,jdbcType=BIGINT}, #{type,jdbcType=SMALLINT}, #{nickname,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=SMALLINT}, #{avatar,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, 
+      #{country,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{deviceType,jdbcType=SMALLINT}, 
+      #{deviceTokens,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{idcardType,jdbcType=SMALLINT}, 
+      #{idcardNumber,jdbcType=VARCHAR}, #{isBirthdayPublic,jdbcType=BIT}, #{isAuthenticated,jdbcType=BIT}, 
+      #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.inteye.tools.model.CmUserData">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cm_user_data
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="avatar != null">
+        avatar,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="country != null">
+        country,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="deviceType != null">
+        device_type,
+      </if>
+      <if test="deviceTokens != null">
+        device_tokens,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="idcardType != null">
+        idcard_type,
+      </if>
+      <if test="idcardNumber != null">
+        idcard_number,
+      </if>
+      <if test="isBirthdayPublic != null">
+        is_birthday_public,
+      </if>
+      <if test="isAuthenticated != null">
+        is_authenticated,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=SMALLINT},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="country != null">
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null">
+        #{deviceType,jdbcType=SMALLINT},
+      </if>
+      <if test="deviceTokens != null">
+        #{deviceTokens,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardType != null">
+        #{idcardType,jdbcType=SMALLINT},
+      </if>
+      <if test="idcardNumber != null">
+        #{idcardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isBirthdayPublic != null">
+        #{isBirthdayPublic,jdbcType=BIT},
+      </if>
+      <if test="isAuthenticated != null">
+        #{isAuthenticated,jdbcType=BIT},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.inteye.tools.model.CmUserDataExample" resultType="java.lang.Integer">
+    select count(*) from cm_user_data
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cm_user_data
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=SMALLINT},
+      </if>
+      <if test="record.nickname != null">
+        nickname = #{record.nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null">
+        gender = #{record.gender,jdbcType=SMALLINT},
+      </if>
+      <if test="record.avatar != null">
+        avatar = #{record.avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthday != null">
+        birthday = #{record.birthday,jdbcType=DATE},
+      </if>
+      <if test="record.country != null">
+        country = #{record.country,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null">
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceType != null">
+        device_type = #{record.deviceType,jdbcType=SMALLINT},
+      </if>
+      <if test="record.deviceTokens != null">
+        device_tokens = #{record.deviceTokens,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ip != null">
+        ip = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcardType != null">
+        idcard_type = #{record.idcardType,jdbcType=SMALLINT},
+      </if>
+      <if test="record.idcardNumber != null">
+        idcard_number = #{record.idcardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isBirthdayPublic != null">
+        is_birthday_public = #{record.isBirthdayPublic,jdbcType=BIT},
+      </if>
+      <if test="record.isAuthenticated != null">
+        is_authenticated = #{record.isAuthenticated,jdbcType=BIT},
+      </if>
+      <if test="record.updatedAt != null">
+        updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cm_user_data
+    set id = #{record.id,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      type = #{record.type,jdbcType=SMALLINT},
+      nickname = #{record.nickname,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=SMALLINT},
+      avatar = #{record.avatar,jdbcType=VARCHAR},
+      birthday = #{record.birthday,jdbcType=DATE},
+      country = #{record.country,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      device_type = #{record.deviceType,jdbcType=SMALLINT},
+      device_tokens = #{record.deviceTokens,jdbcType=VARCHAR},
+      ip = #{record.ip,jdbcType=VARCHAR},
+      idcard_type = #{record.idcardType,jdbcType=SMALLINT},
+      idcard_number = #{record.idcardNumber,jdbcType=VARCHAR},
+      is_birthday_public = #{record.isBirthdayPublic,jdbcType=BIT},
+      is_authenticated = #{record.isAuthenticated,jdbcType=BIT},
+      updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.inteye.tools.model.CmUserData">
+    update cm_user_data
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=SMALLINT},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="country != null">
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null">
+        device_type = #{deviceType,jdbcType=SMALLINT},
+      </if>
+      <if test="deviceTokens != null">
+        device_tokens = #{deviceTokens,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardType != null">
+        idcard_type = #{idcardType,jdbcType=SMALLINT},
+      </if>
+      <if test="idcardNumber != null">
+        idcard_number = #{idcardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isBirthdayPublic != null">
+        is_birthday_public = #{isBirthdayPublic,jdbcType=BIT},
+      </if>
+      <if test="isAuthenticated != null">
+        is_authenticated = #{isAuthenticated,jdbcType=BIT},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.inteye.tools.model.CmUserData">
+    update cm_user_data
+    set user_id = #{userId,jdbcType=BIGINT},
+      type = #{type,jdbcType=SMALLINT},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=SMALLINT},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      country = #{country,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      device_type = #{deviceType,jdbcType=SMALLINT},
+      device_tokens = #{deviceTokens,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR},
+      idcard_type = #{idcardType,jdbcType=SMALLINT},
+      idcard_number = #{idcardNumber,jdbcType=VARCHAR},
+      is_birthday_public = #{isBirthdayPublic,jdbcType=BIT},
+      is_authenticated = #{isAuthenticated,jdbcType=BIT},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

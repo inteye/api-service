@@ -1,0 +1,62 @@
+ version: '2'
+services:
+  mysql:
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    volumes:
+      - ~/zuoda/LAB/docker-data/mysql/data:/var/lib/mysql
+      - ~/zuoda/LAB/docker-data/mysql/conf:/etc/mysql
+      - ~/zuoda/LAB/docker-data/mysql/log:/var/log/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD:root
+  elasticsearch:
+    image: elasticsearch:2.4
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - ~/zuoda/LAB/docker-data/elasticsearch/plugins:/usr/share/elasticsearch/plugins
+      - ~/zuoda/LAB/docker-data/elasticsearch/data:/usr/share/elasticsearch/data
+  redis:
+    image: redis:3.2
+    ports:
+      - 6379:6379
+    volumes:
+      - ~/zuoda/LAB/docker-data/redis/data:/data
+    command: redis-server --appendonly yes
+  mongo:
+    image: mongo:3.2
+    ports:
+      - 27017:27017
+    volumes:
+      - ~/zuoda/LAB/docker-data/mongo/db:/data/db
+  nginx:
+    image: nginx:1.10
+    ports:
+      - 80:80
+    volumes:
+      - ~/zuoda/LAB/docker-data/nginx/html:/usr/share/nginx/html
+      - ~/zuoda/LAB/docker-data/nginx/logs:/var/log/nginx
+      - ~/zuoda/LAB/docker-data/nginx/conf:/etc/nginx
+  mrbook-admin:
+    image: business/admin:0.0.1-SNAPSHOT
+    ports:
+      - 8080:8080
+    links:
+      - mysql:db
+  mrbook-search:
+    image: business/search:1.0-SNAPSHOT
+    ports:
+      - 8081:8081
+    links:
+      - elasticsearch:es
+      - mysql:db
+  mrbook-entry:
+    image: business/entry:1.0-SNAPSHOT
+    ports:
+      - 8085:8085
+    links:
+      - redis:redis
+      - mongo:mongo
+      - mysql:db
